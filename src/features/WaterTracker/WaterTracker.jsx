@@ -1,6 +1,8 @@
 // src/features/WaterTracker/WaterTracker.jsx
 import { useState } from 'react';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
+import { motion, AnimatePresence } from 'framer-motion';
+import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 
 const WaterDropIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-blue-500">
@@ -36,93 +38,185 @@ export default function WaterTracker() {
     }
   };
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 300 }
+    }
+  };
+
+  const waterDropVariants = {
+    initial: { scale: 0, opacity: 0 },
+    animate: { scale: 1, opacity: 1, transition: { type: "spring", stiffness: 500 } },
+    exit: { scale: 0, opacity: 0 }
+  };
+
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6 flex items-center gap-2">
-        <WaterDropIcon />
-        Water Intake
-      </h1>
+    <motion.div 
+      className="p-6 max-w-3xl mx-auto relative"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      {/* Decorative elements */}
+      <div className="absolute top-0 right-0 w-72 h-72 bg-blue-100 rounded-full opacity-20 blur-3xl -mr-20 -mt-20 z-0"></div>
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-sky-100 rounded-full opacity-20 blur-3xl -ml-20 -mb-20 z-0"></div>
+      
+      <motion.h1 
+        className="text-2xl font-bold mb-6 flex items-center gap-3 relative z-10 bg-gradient-to-r from-blue-500 to-sky-600 bg-clip-text text-transparent"
+        variants={itemVariants}
+      >
+        <motion.div 
+          className="p-2 bg-gradient-to-r from-blue-500 to-sky-600 rounded-lg shadow-md"
+          whileHover={{ scale: 1.05, rotate: 10 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <WaterDropIcon />
+        </motion.div>
+        Water Intake Tracker
+      </motion.h1>
       
       {/* Daily Tracker */}
-      <div className="bg-white rounded-xl p-6 shadow-sm mb-8">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">
-            Today's Intake: {currentIntake} / {dailyGoal} glasses
+      <motion.div 
+        className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg mb-8 border border-blue-100 relative z-10"
+        variants={itemVariants}
+      >
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-lg font-semibold text-blue-800">
+            Today's Intake: <span className="text-xl text-blue-600">{currentIntake} / {dailyGoal}</span> glasses
           </h2>
           <div className="flex gap-2">
-            <button 
+            <motion.button 
               onClick={removeGlass}
               disabled={currentIntake <= 0}
-              className="px-3 py-1 bg-gray-100 rounded-lg disabled:opacity-50"
+              className="p-2 bg-gray-100 rounded-full disabled:opacity-50 hover:bg-gray-200 transition-colors shadow-sm"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
-              -
-            </button>
-            <button 
+              <MinusIcon className="w-5 h-5 text-gray-600" />
+            </motion.button>
+            <motion.button 
               onClick={addGlass}
               disabled={currentIntake >= dailyGoal}
-              className="px-3 py-1 bg-blue-100 text-blue-600 rounded-lg disabled:opacity-50"
+              className="p-2 bg-gradient-to-r from-blue-500 to-sky-600 text-white rounded-full disabled:opacity-50 shadow-md hover:shadow-lg hover:shadow-blue-300/50 transition-all"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
-              +
-            </button>
+              <PlusIcon className="w-5 h-5" />
+            </motion.button>
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-3 mb-8 justify-center">
           {Array.from({ length: dailyGoal }).map((_, i) => (
-            <div
+            <motion.div
               key={i}
-              className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                i < currentIntake ? 'bg-blue-500' : 'bg-gray-200'
+              className={`w-16 h-16 rounded-full flex items-center justify-center border ${
+                i < currentIntake 
+                  ? 'bg-gradient-to-r from-blue-400 to-sky-500 shadow-lg shadow-blue-200' 
+                  : 'bg-gray-100 border-gray-200'
               }`}
+              initial={{ scale: 0.8, opacity: 0.5 }}
+              animate={{ 
+                scale: i < currentIntake ? 1 : 0.85, 
+                opacity: i < currentIntake ? 1 : 0.5,
+                transition: { duration: 0.3 }
+              }}
             >
-              {i < currentIntake && (
-                <WaterDropIcon className="w-6 h-6 text-white" />
-              )}
-            </div>
+              <AnimatePresence>
+                {i < currentIntake && (
+                  <motion.div 
+                    className="w-8 h-8 text-white"
+                    variants={waterDropVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                  >
+                    <WaterDropIcon />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           ))}
         </div>
 
-        <div className="bg-blue-50 p-4 rounded-lg">
-          <h3 className="font-medium mb-2">Hydration Tips</h3>
-          <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1">
-            <li>Drink a glass of water first thing in the morning</li>
-            <li>Keep a water bottle with you throughout the day</li>
-            <li>Set reminders if you often forget to drink</li>
+        <motion.div 
+          className="bg-blue-50 p-5 rounded-xl border border-blue-100"
+          variants={itemVariants}
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
+          <h3 className="font-medium mb-3 text-blue-800">Hydration Tips</h3>
+          <ul className="list-disc pl-5 text-sm text-gray-700 space-y-2">
+            <motion.li variants={itemVariants}>Drink a glass of water first thing in the morning</motion.li>
+            <motion.li variants={itemVariants}>Keep a water bottle with you throughout the day</motion.li>
+            <motion.li variants={itemVariants}>Set reminders if you often forget to drink</motion.li>
+            <motion.li variants={itemVariants}>Add fruits or herbs to your water for flavor</motion.li>
           </ul>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Weekly Progress */}
-      <div className="bg-white rounded-xl p-6 shadow-sm">
-        <h2 className="text-lg font-semibold mb-4">Weekly Progress</h2>
-        <div className="grid grid-cols-7 gap-2 text-center">
-          {weekDays.map((day) => {
+      <motion.div 
+        className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-blue-100 relative z-10"
+        variants={itemVariants}
+      >
+        <h2 className="text-lg font-semibold mb-5 text-blue-800">Weekly Progress</h2>
+        <div className="grid grid-cols-7 gap-3 text-center">
+          {weekDays.map((day, index) => {
             const dateKey = format(day, 'yyyy-MM-dd');
             const glasses = weeklyData[dateKey] || 0;
             const percentage = Math.min(100, (glasses / dailyGoal) * 100);
+            const today = isSameDay(day, new Date());
             
             return (
-              <div key={dateKey} className="space-y-2">
-                <div className="text-xs text-gray-500">
+              <motion.div 
+                key={dateKey} 
+                className={`space-y-2 ${today ? 'ring-2 ring-blue-300 rounded-lg ring-offset-2' : ''}`}
+                variants={itemVariants}
+                custom={index}
+              >
+                <div className="text-xs font-medium text-gray-600">
                   {format(day, 'EEE')}
                 </div>
                 <div 
-                  className="relative h-32 bg-gray-100 rounded-t-lg overflow-hidden"
+                  className="relative h-40 bg-gray-50 rounded-xl overflow-hidden border border-gray-200"
                   title={`${glasses} glasses`}
                 >
-                  <div 
-                    className="absolute bottom-0 left-0 right-0 bg-blue-400"
-                    style={{ height: `${percentage}%` }}
+                  <motion.div 
+                    className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-500 to-sky-400"
+                    initial={{ height: 0 }}
+                    animate={{ height: `${percentage}%` }}
+                    transition={{ duration: 1, delay: index * 0.1 }}
                   />
-                  <div className="absolute bottom-1 left-0 right-0 text-xs font-medium">
+                  <motion.div 
+                    className="absolute bottom-2 left-0 right-0 text-sm font-bold"
+                    animate={{ opacity: 1 }}
+                    initial={{ opacity: 0 }}
+                    transition={{ delay: 0.8 + index * 0.1 }}
+                  >
                     {glasses}
-                  </div>
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
