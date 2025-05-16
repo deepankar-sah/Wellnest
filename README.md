@@ -1,12 +1,175 @@
-# React + Vite
+# Wellnest - Wellness Tracking App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Wellnest Banner](https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80)
 
-Currently, two official plugins are available:
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+- [Contributing](#contributing)
+- [License](#license)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Introduction
 
-## Expanding the ESLint configuration
+Wellnest is a comprehensive wellness tracking application designed to help users monitor and improve their overall health and wellbeing. With beautiful visualizations and intuitive interfaces, Wellnest makes it easy to track your mood, hydration, sleep, nutrition, and mindfulness practices all in one place.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Features
+
+### 🌟 Core Features
+
+- **Mood Tracking with Journaling**
+  - Log daily moods with emoji selection
+  - Color-coded mood calendar
+  - Journal entries with date tracking
+  - Weekly mood patterns visualization
+
+- **Water Intake Tracker**
+  - Glass counter with visual indicators
+  - Custom daily hydration goals
+  - Weekly progress charts
+  - Hydration reminders
+
+- **Sleep Tracker**
+  - Duration logging with slider
+  - Sleep quality notes
+  - Weekly sleep analysis
+  - Ideal sleep duration recommendations
+
+- **Breathing Exercises**
+  - Guided 4-7-8 breathing technique
+  - Box breathing and deep breathing options
+  - Animated visual feedback
+  - Session history tracking
+
+- **Meal & Nutrition Tracker**
+  - Food logging with calorie tracking
+  - Macronutrient breakdown (carbs, protein, fat)
+  - Meal type categorization
+  - Daily nutrition goals
+
+### 🎨 Design Features
+
+- Beautiful, intuitive UI with animations
+- Responsive design for all devices
+- Color-coded tracking system
+- Interactive data visualizations
+- Dark mode support
+
+### 📊 Data Features
+
+- Local storage for persistent data
+- Weekly/Monthly trend analysis
+- Exportable data reports
+- Personalized insights and tips
+
+## Technologies Used
+
+### Frontend
+- React.js with Vite
+- Tailwind CSS v4.1
+- Framer Motion for animations
+- Heroicons for icons
+- date-fns for date handling
+
+### Backend (Optional)
+- Node.js with Express
+- MongoDB (for future expansion)
+- JWT authentication (for future expansion)
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/wellnest.git
+   cd wellnest
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open your browser and visit:
+   ```
+   http://localhost:5173
+   ```
+
+## Usage
+
+1. **Dashboard Overview**
+   - View your daily wellness metrics at a glance
+   - Quick log options for all trackers
+   - Weekly summary statistics
+
+2. **Mood Tracking**
+   - Select your current mood from emoji options
+   - Add journal entries to accompany your mood
+   - View historical mood patterns
+
+3. **Water Tracking**
+   - Tap + button to log each glass of water
+   - See visual progress toward daily goal
+   - View weekly hydration trends
+
+4. **Sleep Tracking**
+   - Adjust slider to log sleep duration
+   - View sleep consistency over time
+   - Get personalized sleep recommendations
+
+5. **Breathing Exercises**
+   - Select from different breathing techniques
+   - Follow animated guide for inhale/hold/exhale
+   - Track your relaxation sessions
+
+6. **Nutrition Tracking**
+   - Log meals with nutritional information
+   - Monitor daily calorie and macronutrient intake
+   - Get healthy eating tips
+
+## Screenshots
+
+![Dashboard](screenshots/dashboard.png)
+*Dashboard Overview*
+
+![Mood Tracker](screenshots/mood-tracker.png)
+*Mood Tracking with Journal*
+
+![Water Tracker](screenshots/water-tracker.png)
+*Water Intake Tracking*
+
+![Sleep Tracker](screenshots/sleep-tracker.png)
+*Sleep Duration Tracking*
+
+![Breathing Exercises](screenshots/breathing.png)
+*Guided Breathing Exercises*
+
+![Nutrition Tracker](screenshots/nutrition.png)
+*Meal and Nutrition Tracking*
+
+## Contributing
+
+We welcome contributions to Wellnest! Here's how you can help:
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+Please read our [Contribution Guidelines](CONTRIBUTING.md) for more details.
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+**Wellnest** - Your all-in-one wellness companion for a healthier, happier life.
