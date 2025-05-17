@@ -1,4 +1,3 @@
-// src/features/Breathing/BreathingExercise.jsx
 import { useState, useEffect, useRef } from 'react';
 import { PlayIcon, PauseIcon, ArrowPathIcon } from '@heroicons/react/24/solid';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -60,21 +59,39 @@ export default function BreathingExercise() {
   }, [isActive, currentTechnique]);
 
   useEffect(() => {
-    if (timeLeft > 0 && isActive) {
+    if (isActive) {
+      const currentPhaseDuration = technique.pattern[currentPhase % technique.pattern.length];
+      
+      // Skip phases with 0 duration immediately
+      if (currentPhaseDuration === 0) {
+        nextPhase();
+        return;
+      }
+
+      setTimeLeft(currentPhaseDuration);
+      
       const interval = setInterval(() => {
-        setTimeLeft(prev => prev - 1);
+        setTimeLeft(prev => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            nextPhase();
+            return 0;
+          }
+          return prev - 1;
+        });
       }, 1000);
+
       timerRef.current = interval;
       return () => clearInterval(interval);
-    } else if (timeLeft === 0 && isActive) {
-      nextPhase();
     }
-  }, [timeLeft, isActive]);
+  }, [currentPhase, isActive, technique]);
 
   useEffect(() => {
     // Breathing animation
     if (isActive) {
       const totalTime = technique.pattern[currentPhase % technique.pattern.length];
+      if (totalTime === 0) return; // Skip animation for 0 duration phases
+      
       const steps = totalTime * 10;
       let step = 0;
       
@@ -95,12 +112,13 @@ export default function BreathingExercise() {
     } else {
       setCircleSize(100);
     }
-  }, [currentPhase, isActive]);
+  }, [currentPhase, isActive, currentPhaseName, technique]);
 
   const startBreathing = () => {
     setCurrentPhase(0);
     setCycleCount(0);
-    setTimeLeft(technique.pattern[0]);
+    const initialDuration = technique.pattern[0];
+    setTimeLeft(initialDuration);
   };
 
   const stopBreathing = () => {
@@ -112,8 +130,10 @@ export default function BreathingExercise() {
 
   const nextPhase = () => {
     const nextPhase = (currentPhase + 1) % technique.pattern.length;
+    const nextDuration = technique.pattern[nextPhase];
+    
     setCurrentPhase(nextPhase);
-    setTimeLeft(technique.pattern[nextPhase]);
+    setTimeLeft(nextDuration);
     
     if (nextPhase === 0) {
       setCycleCount(prev => {
@@ -265,8 +285,8 @@ export default function BreathingExercise() {
           <motion.div 
             className="text-5xl font-bold mb-3 bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent"
             animate={{ 
-              scale: timeLeft <= 3 && isActive ? [1, 1.1, 1] : 1,
-              transition: { duration: 0.5, repeat: timeLeft <= 3 && isActive ? Infinity : 0 }
+              scale: timeLeft <= 3 && isActive && timeLeft > 0 ? [1, 1.1, 1] : 1,
+              transition: { duration: 0.5, repeat: timeLeft <= 3 && isActive && timeLeft > 0 ? Infinity : 0 }
             }}
           >
             {timeLeft}s

@@ -132,7 +132,7 @@ const Journal = () => {
 
   return (
     <motion.div 
-      className={`p-6 max-w-6xl mx-auto ${isDarkMode ? 'text-white' : 'text-gray-800'}`}
+      className={`p-6 max-w-6xl mx-auto ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}
       initial="hidden"
       animate="visible"
       variants={containerVariants}
@@ -145,7 +145,7 @@ const Journal = () => {
         <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-indigo-600 bg-clip-text text-transparent">
           Journal Entries
         </h1>
-        <p className={`mt-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+        <p className={`mt-2 ${isDarkMode ? 'text-gray-700' : 'text-gray-500'}`}>
           Reflect on your wellness journey and track your thoughts
         </p>
       </motion.div>
@@ -158,7 +158,7 @@ const Journal = () => {
           variants={itemVariants}
         >
           <div className="flex justify-between items-center mb-4">
-            <h2 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>My Entries</h2>
+            <h2 className={`font-semibold ${isDarkMode ? 'text-gray-50' : 'text-gray-500'}`}>My Entries</h2>
             <motion.button
               onClick={createNewEntry}
               className={`py-2 px-4 rounded-lg text-sm bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-sm flex items-center gap-2`}
@@ -170,7 +170,7 @@ const Journal = () => {
             </motion.button>
           </div>
           
-          <div className={`rounded-2xl overflow-hidden ${isDarkMode ? 'bg-gray-800/60' : 'bg-white'} shadow-lg`}>
+          <div className={`rounded-2xl overflow-hidden ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} shadow-lg border`}>
             <div className="p-4">
               {journalEntries.length === 0 ? (
                 <div className={`text-center py-8 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
@@ -178,14 +178,14 @@ const Journal = () => {
                   <p className="mt-2">Create your first entry!</p>
                 </div>
               ) : (
-                <div className="divide-y divide-gray-100 dark:divide-gray-700">
+                <div className={`divide-y ${isDarkMode ? 'divide-gray-700' : 'divide-gray-200'}`}>
                   {journalEntries.map((entry) => (
                     <motion.div
                       key={entry.id}
                       className={`p-4 cursor-pointer transition-colors ${
                         currentEntry && currentEntry.id === entry.id
-                          ? isDarkMode ? 'bg-gray-700/70' : 'bg-purple-50'
-                          : isDarkMode ? 'hover:bg-gray-700/40' : 'hover:bg-gray-50'
+                          ? isDarkMode ? 'bg-gray-700' : 'bg-purple-50'
+                          : isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
                       }`}
                       onClick={() => viewEntry(entry)}
                       whileHover={{ x: 5 }}
@@ -193,7 +193,7 @@ const Journal = () => {
                       <div className="flex justify-between items-start mb-1">
                         <div className="flex items-center gap-2">
                           <span className="text-xl" role="img" aria-label="Mood">{entry.mood}</span>
-                          <h3 className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
+                          <h3 className={`font-medium ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                             {entry.title}
                           </h3>
                         </div>
@@ -213,7 +213,7 @@ const Journal = () => {
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                           >
-                            <PencilIcon className="w-4 h-4 text-gray-500" />
+                            <PencilIcon className={`w-4 h-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`} />
                           </motion.button>
                           <motion.button
                             onClick={(e) => {
@@ -249,14 +249,14 @@ const Journal = () => {
               /* Adding/Editing Entry Form */
               <motion.div
                 key="add-form"
-                className={`rounded-2xl overflow-hidden ${isDarkMode ? 'bg-gray-800/60' : 'bg-white'} shadow-lg`}
+                className={`rounded-2xl overflow-hidden ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} shadow-lg border`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className={`p-6 ${isDarkMode ? 'border-b border-gray-700' : 'border-b border-gray-100'} flex justify-between items-center`}>
-                  <h2 className="text-lg font-semibold">
+                <div className={`p-6 ${isDarkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'} flex justify-between items-center`}>
+                  <h2 className={`text-lg font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                     {currentEntry ? 'Edit Entry' : 'New Journal Entry'}
                   </h2>
                   <motion.button
@@ -265,7 +265,7 @@ const Journal = () => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                   >
-                    <ArrowLeftIcon className="w-5 h-5" />
+                    <ArrowLeftIcon className={`w-5 h-5 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
                   </motion.button>
                 </div>
                 
@@ -282,7 +282,7 @@ const Journal = () => {
                       placeholder="Title of your entry"
                       className={`w-full p-3 rounded-lg outline-none focus:ring-2 focus:ring-purple-500 ${
                         isDarkMode 
-                          ? 'bg-gray-700 text-white placeholder-gray-400 border-gray-600' 
+                          ? 'bg-gray-700 text-gray-100 placeholder-gray-400 border-gray-600' 
                           : 'bg-gray-50 text-gray-900 placeholder-gray-400 border border-gray-200'
                       }`}
                     />
@@ -326,7 +326,7 @@ const Journal = () => {
                       rows={10}
                       className={`w-full p-3 rounded-lg outline-none focus:ring-2 focus:ring-purple-500 ${
                         isDarkMode 
-                          ? 'bg-gray-700 text-white placeholder-gray-400 border-gray-600' 
+                          ? 'bg-gray-700 text-gray-100 placeholder-gray-400 border-gray-600' 
                           : 'bg-gray-50 text-gray-900 placeholder-gray-400 border border-gray-200'
                       }`}
                     />
@@ -350,21 +350,21 @@ const Journal = () => {
               /* Viewing Entry */
               <motion.div
                 key="view-entry"
-                className={`rounded-2xl overflow-hidden ${isDarkMode ? 'bg-gray-800/60' : 'bg-white'} shadow-lg`}
+                className={`rounded-2xl overflow-hidden ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} shadow-lg border`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className={`p-6 ${isDarkMode ? 'border-b border-gray-700' : 'border-b border-gray-100'} flex justify-between items-center`}>
+                <div className={`p-6 ${isDarkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'} flex justify-between items-center`}>
                   <div className="flex items-center gap-2">
                     <span className="text-2xl" role="img" aria-label="Mood">{currentEntry.mood}</span>
-                    <h2 className="text-lg font-semibold">{currentEntry.title}</h2>
+                    <h2 className={`text-lg font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>{currentEntry.title}</h2>
                   </div>
                   <div className="flex gap-2">
                     <motion.button
                       onClick={() => editEntry(currentEntry)}
-                      className={`p-2 rounded-lg ${isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'} flex items-center gap-1`}
+                      className={`p-2 rounded-lg ${isDarkMode ? 'bg-gray-700 hover:bg-gray-600 text-gray-100' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'} flex items-center gap-1`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -373,7 +373,7 @@ const Journal = () => {
                     </motion.button>
                     <motion.button
                       onClick={() => deleteEntry(currentEntry.id)}
-                      className={`p-2 rounded-lg ${isDarkMode ? 'bg-red-900/30 hover:bg-red-900/40' : 'bg-red-100 hover:bg-red-200'} flex items-center gap-1 text-red-500`}
+                      className={`p-2 rounded-lg ${isDarkMode ? 'bg-red-900/30 hover:bg-red-900/40 text-red-300' : 'bg-red-100 hover:bg-red-200 text-red-600'} flex items-center gap-1`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -384,8 +384,8 @@ const Journal = () => {
                 </div>
                 
                 <div className="p-6">
-                  <div className={`p-3 rounded-lg mb-4 inline-block ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
-                    <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} flex items-center gap-1`}>
+                  <div className={`p-3 rounded-lg mb-4 inline-block ${isDarkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-600'}`}>
+                    <span className={`text-sm flex items-center gap-1`}>
                       <CalendarIcon className="w-4 h-4" />
                       {currentEntry.date}
                     </span>
@@ -400,7 +400,7 @@ const Journal = () => {
               /* Welcome/Instructions when nothing is selected */
               <motion.div
                 key="welcome"
-                className={`rounded-2xl overflow-hidden ${isDarkMode ? 'bg-gray-800/60' : 'bg-white'} shadow-lg p-8 text-center flex flex-col items-center justify-center min-h-[400px]`}
+                className={`rounded-2xl overflow-hidden ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} shadow-lg border p-8 text-center flex flex-col items-center justify-center min-h-[400px]`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -409,7 +409,7 @@ const Journal = () => {
                 <div className={`w-20 h-20 mb-6 rounded-full ${isDarkMode ? 'bg-purple-900/30' : 'bg-purple-100'} flex items-center justify-center`}>
                   <PencilIcon className="w-10 h-10 text-purple-500" />
                 </div>
-                <h2 className="text-xl font-bold mb-3">Your Journal</h2>
+                <h2 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>Your Journal</h2>
                 <p className={`max-w-md mx-auto mb-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                   Keep track of your thoughts, feelings, and progress. Journal entries can help you reflect on your wellness journey.
                 </p>
@@ -430,4 +430,4 @@ const Journal = () => {
   );
 };
 
-export default Journal; 
+export default Journal;

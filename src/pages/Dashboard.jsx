@@ -116,7 +116,7 @@ const Dashboard = () => {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-gray-100 dark:bg-gray-800/60">
-              <span className="text-gray-400 text-sm mb-2">No mood logged today</span>
+              <span className="text-gray-100 text-sm mb-2">No mood logged today</span>
               <Link to="/dashboard/mood" className={`text-xs font-semibold hover:underline ${accentLink}`}>Log Mood</Link>
             </div>
           )}
