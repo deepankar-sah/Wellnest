@@ -1,13 +1,13 @@
-// src/features/WaterTracker/WaterTracker.jsx
 import { useState } from 'react';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 import { useTheme } from '../../context/ThemeContext';
 
-const WaterDropIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-blue-500">
-    <path fillRule="evenodd" d="M10.5 1.5a.75.75 0 01.75.75V4.5a.75.75 0 01-1.5 0V2.25A.75.75 0 0110.5 1.5zM5.636 4.136a.75.75 0 011.06 0l1.592 1.591a.75.75 0 01-1.061 1.06l-1.591-1.59a.75.75 0 010-1.061zm12.728 0a.75.75 0 010 1.06l-1.591 1.592a.75.75 0 01-1.06-1.061l1.59-1.591a.75.75 0 011.061 0zm-6.816 4.496a.75.75 0 01.82.311l5.228 7.917a.75.75 0 01-.777 1.148l-2.097-.43 1.045 3.9a.75.75 0 01-1.45.388l-1.044-3.899-1.601 1.42a.75.75 0 01-1.247-.606l.569-9.47a.75.75 0 01.554-.68zM3 10.5a.75.75 0 01.75-.75H6a.75.75 0 010 1.5H3.75A.75.75 0 013 10.5zm14.25 0a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H18a.75.75 0 01-.75-.75zm-8.962 3.712a.75.75 0 010 1.061l-1.591 1.591a.75.75 0 11-1.061-1.06l1.591-1.592a.75.75 0 011.06 0z" clipRule="evenodd" />
+const WaterDropIcon = ({ isDarkMode }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-6 h-6 ${isDarkMode ? 'text-blue-300' : 'text-blue-500'}`}>
+    <path d="M12 2C12 2 5 11 5 16a7 7 0 0014 0c0-5-7-14-7-14z" fill="currentColor"/>
+    <ellipse cx="12" cy="17" rx="4" ry="3" fill={isDarkMode ? '#60A5FA' : '#3B82F6'} fillOpacity="0.3"/>
   </svg>
 );
 
@@ -30,13 +30,31 @@ export default function WaterTracker() {
 
   const addGlass = () => {
     if (currentIntake < dailyGoal) {
-      setCurrentIntake(prev => prev + 1);
+      setCurrentIntake(prev => {
+        const newIntake = prev + 1;
+        // Update weeklyData for today
+        const today = format(new Date(), 'yyyy-MM-dd');
+        setWeeklyData(prevData => ({
+          ...prevData,
+          [today]: newIntake
+        }));
+        return newIntake;
+      });
     }
   };
 
   const removeGlass = () => {
     if (currentIntake > 0) {
-      setCurrentIntake(prev => prev - 1);
+      setCurrentIntake(prev => {
+        const newIntake = prev - 1;
+        // Update weeklyData for today
+        const today = format(new Date(), 'yyyy-MM-dd');
+        setWeeklyData(prevData => ({
+          ...prevData,
+          [today]: newIntake
+        }));
+        return newIntake;
+      });
     }
   };
 
@@ -68,10 +86,10 @@ export default function WaterTracker() {
   };
 
   // Theme-based classes
-  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/80 border-blue-100 text-gray-900';
-  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-white border-gray-100 text-gray-900';
-  const sectionTitle = isDarkMode ? 'text-blue-300' : 'text-blue-800';
-  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900';
+  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/90 border border-blue-100 text-gray-800 shadow-md';
+  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-blue-50/80 border border-blue-100 text-gray-800';
+  const sectionTitle = isDarkMode ? 'text-blue-300' : 'text-blue-600';
+  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white/90 border-blue-100 text-gray-800 placeholder-gray-400';
   const inputFocus = isDarkMode ? 'focus:ring-blue-400 focus:border-blue-400' : 'focus:ring-blue-300 focus:border-blue-300';
   const labelText = isDarkMode ? 'text-gray-300' : 'text-gray-700';
 
@@ -97,7 +115,7 @@ export default function WaterTracker() {
             whileHover={{ scale: 1.05, rotate: 10 }}
             whileTap={{ scale: 0.95 }}
           >
-            <WaterDropIcon />
+            <WaterDropIcon isDarkMode={isDarkMode} />
           </motion.div>
           Water Intake Tracker
         </motion.h1>
@@ -158,7 +176,7 @@ export default function WaterTracker() {
                     animate="animate"
                     exit="exit"
                   >
-                    <WaterDropIcon />
+                    <WaterDropIcon isDarkMode={isDarkMode} />
                   </motion.div>
                 )}
               </AnimatePresence>

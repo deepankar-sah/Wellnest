@@ -1,4 +1,3 @@
-// src/features/SleepTracker/SleepTracker.jsx
 import { useState } from 'react';
 import { format, startOfWeek, addDays, subDays } from 'date-fns';
 import { motion } from 'framer-motion';
@@ -27,10 +26,10 @@ const SleepTracker = () => {
 
   const logSleep = () => {
     const today = format(new Date(), 'yyyy-MM-dd');
-    setSleepData(prev => ({
-      ...prev,
-      [today]: sleepHours
-    }));
+    setSleepData(prev => {
+      const updated = { ...prev, [today]: sleepHours };
+      return updated;
+    });
   };
 
   // Animation variants
@@ -61,10 +60,10 @@ const SleepTracker = () => {
   }
 
   // Theme-based classes
-  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/80 border-indigo-100 text-gray-900';
-  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-white border-gray-100 text-gray-900';
-  const sectionTitle = isDarkMode ? 'text-indigo-300' : 'text-indigo-800';
-  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900';
+  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/90 border border-indigo-100 text-gray-800 shadow-md';
+  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-indigo-50/80 border border-indigo-100 text-gray-800';
+  const sectionTitle = isDarkMode ? 'text-indigo-300' : 'text-indigo-600';
+  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white/90 border-indigo-100 text-gray-800 placeholder-gray-400';
   const inputFocus = isDarkMode ? 'focus:ring-indigo-400 focus:border-indigo-400' : 'focus:ring-indigo-300 focus:border-indigo-300';
   const labelText = isDarkMode ? 'text-gray-300' : 'text-gray-700';
 
@@ -106,7 +105,7 @@ const SleepTracker = () => {
           <div className="flex justify-between items-center mb-2">
             <label className={`text-sm font-medium ${sectionTitle}`}>
               Sleep Duration
-            </label>
+          </label>
             <span className="text-xl font-bold bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
               {sleepHours.toFixed(1)} hours
             </span>
@@ -117,31 +116,31 @@ const SleepTracker = () => {
               <SunIcon className="w-6 h-6 text-yellow-500" />
               <MoonIcon className="w-6 h-6 text-indigo-600" />
             </div>
-            <input
-              type="range"
-              min="4"
-              max="12"
-              step="0.5"
-              value={sleepHours}
-              onChange={handleSleepChange}
+          <input
+            type="range"
+            min="4"
+            max="12"
+            step="0.5"
+            value={sleepHours}
+            onChange={handleSleepChange}
               className={`w-full h-3 rounded-lg appearance-none cursor-pointer accent-indigo-600 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-200'}`}
-            />
+          />
             <div className="flex justify-between text-xs text-gray-500 mt-2">
-              <span>4h</span>
-              <span>8h</span>
-              <span>12h</span>
-            </div>
+            <span>4h</span>
+            <span>8h</span>
+            <span>12h</span>
           </div>
+        </div>
 
           <motion.button
-            onClick={logSleep}
+          onClick={logSleep}
             className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl shadow-md hover:shadow-lg hover:shadow-indigo-300/50 transition-all"
             whileHover={{ y: -2 }}
             whileTap={{ y: 0 }}
-          >
-            Log Sleep
+        >
+          Log Sleep
           </motion.button>
-        </div>
+      </div>
       </motion.div>
 
       {/* Sleep Insights */}
@@ -156,7 +155,7 @@ const SleepTracker = () => {
         
         <div className="grid grid-cols-2 gap-4 mb-8 relative z-10">
           <motion.div 
-            className={`bg-gradient-to-br from-indigo-900/40 to-indigo-800/30 p-5 rounded-xl border border-indigo-900/30 ${isDarkMode ? 'text-indigo-200' : ''}`}
+            className={`${isDarkMode ? 'bg-indigo-900/80 text-indigo-200 border-indigo-800' : 'bg-indigo-50/90 text-indigo-700 border-indigo-200'} p-5 rounded-xl border`}
             whileHover={{ y: -5, scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
@@ -169,7 +168,7 @@ const SleepTracker = () => {
             </p>
           </motion.div>
           <motion.div 
-            className={`bg-gradient-to-br from-purple-900/40 to-purple-800/30 p-5 rounded-xl border border-purple-900/30 ${isDarkMode ? 'text-purple-200' : ''}`}
+            className={`${isDarkMode ? 'bg-purple-900/80 text-purple-200 border-purple-800' : 'bg-purple-50/90 text-purple-700 border-purple-200'} p-5 rounded-xl border`}
             whileHover={{ y: -5, scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
@@ -199,8 +198,8 @@ const SleepTracker = () => {
             <p className="flex gap-2 items-start">
               <span className="text-indigo-500">✓</span>
               <span>Reduce screen time 1 hour before bed for better sleep quality.</span>
-            </p>
-          </div>
+          </p>
+        </div>
         </motion.div>
       </motion.div>
 
@@ -263,8 +262,8 @@ const SleepTracker = () => {
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-gradient-to-r from-red-400 to-red-600"></div>
             <span>Insufficient (&lt;6h)</span>
-          </div>
-        </div>
+      </div>
+    </div>
       </motion.div>
     </motion.div>
   );

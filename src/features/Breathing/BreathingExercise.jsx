@@ -164,10 +164,10 @@ export default function BreathingExercise() {
   };
 
   // Theme-based classes
-  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/80 border-purple-100 text-gray-900';
-  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-white border-gray-100 text-gray-900';
-  const sectionTitle = isDarkMode ? 'text-purple-300' : 'text-purple-800';
-  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900';
+  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/90 border border-purple-100 text-gray-800 shadow-md';
+  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-purple-50/80 border border-purple-100 text-gray-800';
+  const sectionTitle = isDarkMode ? 'text-purple-300' : 'text-purple-600';
+  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white/90 border-purple-100 text-gray-800 placeholder-gray-400';
   const inputFocus = isDarkMode ? 'focus:ring-purple-400 focus:border-purple-400' : 'focus:ring-purple-300 focus:border-purple-300';
   const labelText = isDarkMode ? 'text-gray-300' : 'text-gray-700';
 

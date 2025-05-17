@@ -65,18 +65,18 @@ const Dashboard = () => {
   };
 
   // Theme-based classes for light mode improvements
-  const mainBg = isDarkMode ? 'bg-gradient-to-br from-gray-950 to-gray-900' : 'bg-white';
-  const topBarText = isDarkMode ? 'text-white' : 'text-gray-900';
-  const topBarBorder = isDarkMode ? 'border-b border-gray-800' : 'border-b border-gray-200';
-  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white border border-gray-200 text-gray-900 shadow-sm';
-  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-gray-50 border border-gray-100 text-gray-900';
+  const mainBg = isDarkMode ? 'bg-gradient-to-br from-gray-950 to-gray-900' : 'bg-gradient-to-br from-gray-50 via-white to-pink-50';
+  const topBarText = isDarkMode ? 'text-white' : 'text-gray-800';
+  const topBarBorder = isDarkMode ? 'border-b border-gray-800' : 'border-b border-pink-100';
+  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/90 border border-pink-100 text-gray-800 shadow-md';
+  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-pink-50/80 border border-pink-100 text-gray-800';
   const accentLink = isDarkMode ? 'text-pink-400' : 'text-pink-600 hover:text-pink-700';
-  const accentBlue = isDarkMode ? 'text-blue-300' : 'text-blue-700';
-  const accentPurple = isDarkMode ? 'text-purple-300' : 'text-purple-700';
-  const accentGreen = isDarkMode ? 'text-green-300' : 'text-green-700';
-  const accentPink = isDarkMode ? 'text-pink-300' : 'text-pink-700';
-  const accentYellow = isDarkMode ? 'text-yellow-300' : 'text-yellow-700';
-  const accentRed = isDarkMode ? 'text-red-300' : 'text-red-700';
+  const accentBlue = isDarkMode ? 'text-blue-300' : 'text-blue-600';
+  const accentPurple = isDarkMode ? 'text-purple-300' : 'text-purple-600';
+  const accentGreen = isDarkMode ? 'text-green-300' : 'text-green-600';
+  const accentPink = isDarkMode ? 'text-pink-300' : 'text-pink-600';
+  const accentYellow = isDarkMode ? 'text-yellow-300' : 'text-yellow-600';
+  const accentRed = isDarkMode ? 'text-red-300' : 'text-red-600';
 
   return (
     <motion.div 
@@ -88,13 +88,6 @@ const Dashboard = () => {
       {/* Top Bar */}
       <div className={`flex items-center justify-between mb-10 px-6 md:px-0 ${topBarBorder}`}>
         <h1 className={`text-3xl md:text-4xl font-extrabold tracking-tight uppercase ${topBarText}`}>Dashboard</h1>
-        <button
-          onClick={toggleDarkMode}
-          className={`p-2 rounded-full border ${isDarkMode ? 'bg-gray-800 text-yellow-300 border-gray-700' : 'bg-gray-100 text-yellow-500 border-gray-200 hover:bg-yellow-50'} transition`}
-          title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-        >
-          {isDarkMode ? <SunIcon className="w-6 h-6" /> : <MoonIcon className="w-6 h-6" />}
-        </button>
       </div>
 
       {/* Stats Cards */}

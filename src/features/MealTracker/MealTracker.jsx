@@ -93,10 +93,10 @@ const MealTracker = () => {
   };
 
   // Theme-based classes
-  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/80 border-pink-100 text-gray-900';
-  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-white/90 border-gray-100 text-gray-900';
-  const sectionTitle = isDarkMode ? 'text-pink-300' : 'text-pink-800';
-  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900';
+  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/90 border border-pink-100 text-gray-800 shadow-md';
+  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-pink-50/80 border border-pink-100 text-gray-800';
+  const sectionTitle = isDarkMode ? 'text-pink-300' : 'text-pink-600';
+  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white/90 border-pink-100 text-gray-800 placeholder-gray-400';
   const inputFocus = isDarkMode ? 'focus:ring-pink-400 focus:border-pink-400' : 'focus:ring-pink-300 focus:border-pink-300';
   const labelText = isDarkMode ? 'text-gray-300' : 'text-gray-700';
   const borderColor = isDarkMode ? 'border-gray-700' : 'border-gray-300';

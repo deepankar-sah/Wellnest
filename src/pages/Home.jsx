@@ -10,9 +10,25 @@ const WaterDropIcon = () => (
   </svg>
 );
 
+// Physical Health SVG Icon
+const PhysicalHealthIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 32 32" className="w-10 h-10 text-white">
+    <rect x="6" y="13" width="20" height="6" rx="2" fill="currentColor" />
+    <rect x="2" y="11" width="4" height="10" rx="1.5" fill="currentColor" />
+    <rect x="26" y="11" width="4" height="10" rx="1.5" fill="currentColor" />
+  </svg>
+);
+
 const HeartLogo = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-pink-500">
     <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+  </svg>
+);
+
+// WaterDropIconFeature SVG Icon
+const WaterDropIconFeature = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-20 h-20 text-blue-500">
+    <path fillRule="evenodd" d="M12 2C12 2 7 8.5 7 13a5 5 0 1010 0c0-4.5-5-11-5-11zm0 17a4 4 0 01-4-4c0-2.5 2.5-7 4-9.5C13.5 8 16 12.5 16 15a4 4 0 01-4 4z" clipRule="evenodd" fill="currentColor" />
   </svg>
 );
 
@@ -43,18 +59,18 @@ const floatCardVariants = {
 
 const Home = () => {
   const { isDarkMode, toggleDarkMode } = useTheme();
-  const bg = isDarkMode ? 'bg-gray-950' : 'bg-white';
-  const text = isDarkMode ? 'text-white' : 'text-black';
+  const bg = isDarkMode ? 'bg-gray-950' : 'bg-gray-50';
+  const text = isDarkMode ? 'text-white' : 'text-gray-900';
   const subtext = isDarkMode ? 'text-gray-300' : 'text-gray-600';
-  const card = isDarkMode ? 'bg-gray-900 border-gray-800 text-white' : 'bg-white border-gray-100 text-black';
+  const card = isDarkMode ? 'bg-gray-900 border-gray-800 text-white' : 'bg-white border border-gray-200 text-gray-900 shadow-sm';
   const sectionBg = isDarkMode ? 'bg-gray-900' : 'bg-gray-50';
-  const border = isDarkMode ? 'border-gray-800' : 'border-gray-100';
-  const navBg = isDarkMode ? 'bg-gray-950 border-gray-800' : 'bg-white border-gray-100';
-  const footerBg = isDarkMode ? 'bg-gray-950 border-gray-800' : 'bg-white border-gray-100';
+  const border = isDarkMode ? 'border-gray-800' : 'border-gray-200';
+  const navBg = isDarkMode ? 'bg-gray-950 border-gray-800' : 'bg-white border-b border-gray-200';
+  const footerBg = isDarkMode ? 'bg-gray-950 border-gray-800' : 'bg-white border-t border-gray-200';
 
   return (
     <div className={`min-h-screen ${bg} transition-colors duration-300`}>
-      {/* Navbar - Updated to match inspiration */}
+      {/* Navbar */}
       <nav className={`${navBg} sticky top-0 z-50`}>
         <div className="container mx-auto px-6 md:px-12 py-4">
           <div className="flex items-center justify-between">
@@ -76,17 +92,17 @@ const Home = () => {
                 {isDarkMode ? <SunIcon className="w-5 h-5" /> : <MoonIcon className="w-5 h-5" />}
               </button>
               <Link to="/dashboard" className="px-6 py-2.5 bg-pink-500 text-white rounded-full font-medium">
-                Get Started
+                Login
               </Link>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section - Redesigned to match inspiration */}
+      {/* Hero Section */}
       <section className={`py-16 md:py-24 lg:py-32 px-6 md:px-12 container mx-auto ${bg}`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Text Column - Takes 7 columns on large screens */}
+          {/* Text Column */}
           <motion.div 
             className="lg:col-span-7 max-w-3xl"
             initial="hidden"
@@ -130,7 +146,7 @@ const Home = () => {
               </Link>
             </motion.div>
           </motion.div>
-          {/* Image Column - Takes 5 columns on large screens */}
+          {/* Image Column*/}
           <motion.div 
             className="lg:col-span-5 relative"
             initial="hidden"
@@ -155,7 +171,7 @@ const Home = () => {
               initial="hidden"
               animate="visible"
               variants={floatCardVariants}
-              whileHover={{ y: -5 }}
+              whileHover={{ y: -8, scale: 1.03, boxShadow: '0 8px 32px 0 rgba(60,60,120,0.10)' }}
             >
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -188,7 +204,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Why Wellness Matters Section - Redesigned to match inspiration */}
+      {/* Why Wellness Matters Section */}
       <section className={`py-24 md:py-32 ${sectionBg}`}>
         <div className="container mx-auto px-6 md:px-12">
           <motion.div
@@ -235,7 +251,7 @@ const Home = () => {
               className={`${card} p-10 rounded-3xl border group md:mt-16`}
             >
               <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center mb-8">
-                <WaterDropIcon className="text-white" />
+                <PhysicalHealthIcon />
               </div>
               <h3 className={`text-2xl font-bold ${text} mb-4`}>Physical Health</h3>
               <p className={`${subtext} leading-relaxed`}>
@@ -317,7 +333,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Key Features Section - Enhanced with more attractive design */}
+      {/* Key Features Section*/}
       <section id="features" className={`py-24 md:py-32 ${bg} relative overflow-hidden`}>
         {/* Decorative elements */}
         <div className="absolute right-0 top-40 w-64 h-64 bg-pink-100 rounded-full opacity-30 blur-3xl"></div>
@@ -382,14 +398,6 @@ const Home = () => {
                 >
                   <HeartIcon className="w-20 h-20 text-pink-500" />
                 </motion.div>
-                <div className="absolute bottom-4 right-4">
-                  <motion.div 
-                    className="w-7 h-7 rounded-full bg-pink-500 flex items-center justify-center"
-                    whileHover={{ scale: 1.2 }}
-                  >
-                    <ArrowRightIcon className="w-4 h-4 text-white" />
-                  </motion.div>
-                </div>
               </div>
               <div className="p-8">
                 <h3 className={`text-2xl font-bold ${text} mb-4 group-hover:text-pink-500 transition-colors duration-300`}>Mood Tracking</h3>
@@ -413,16 +421,8 @@ const Home = () => {
                   className="h-full w-full flex items-center justify-center"
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 >
-                  <WaterDropIcon className="w-20 h-20 text-blue-500" />
+                  <WaterDropIconFeature />
                 </motion.div>
-                <div className="absolute bottom-4 right-4">
-                  <motion.div 
-                    className="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center"
-                    whileHover={{ scale: 1.2 }}
-                  >
-                    <ArrowRightIcon className="w-4 h-4 text-white" />
-                  </motion.div>
-                </div>
               </div>
               <div className="p-8">
                 <h3 className={`text-2xl font-bold ${text} mb-4 group-hover:text-blue-500 transition-colors duration-300`}>Water Intake</h3>
@@ -448,14 +448,6 @@ const Home = () => {
                 >
                   <MoonIcon className="w-20 h-20 text-purple-500" />
                 </motion.div>
-                <div className="absolute bottom-4 right-4">
-                  <motion.div 
-                    className="w-7 h-7 rounded-full bg-purple-500 flex items-center justify-center"
-                    whileHover={{ scale: 1.2 }}
-                  >
-                    <ArrowRightIcon className="w-4 h-4 text-white" />
-                  </motion.div>
-                </div>
               </div>
               <div className="p-8">
                 <h3 className={`text-2xl font-bold ${text} mb-4 group-hover:text-purple-500 transition-colors duration-300`}>Sleep Tracking</h3>
@@ -481,14 +473,6 @@ const Home = () => {
                 >
                   <span className="text-5xl">🧘</span>
                 </motion.div>
-                <div className="absolute bottom-4 right-4">
-                  <motion.div 
-                    className="w-7 h-7 rounded-full bg-indigo-500 flex items-center justify-center"
-                    whileHover={{ scale: 1.2 }}
-                  >
-                    <ArrowRightIcon className="w-4 h-4 text-white" />
-                  </motion.div>
-                </div>
               </div>
               <div className="p-8">
                 <h3 className={`text-2xl font-bold ${text} mb-4 group-hover:text-indigo-500 transition-colors duration-300`}>Breathing Exercises</h3>
@@ -514,14 +498,6 @@ const Home = () => {
                 >
                   <span className="text-5xl">🍎</span>
                 </motion.div>
-                <div className="absolute bottom-4 right-4">
-                  <motion.div 
-                    className="w-7 h-7 rounded-full bg-yellow-500 flex items-center justify-center"
-                    whileHover={{ scale: 1.2 }}
-                  >
-                    <ArrowRightIcon className="w-4 h-4 text-white" />
-                  </motion.div>
-                </div>
               </div>
               <div className="p-8">
                 <h3 className={`text-2xl font-bold ${text} mb-4 group-hover:text-yellow-500 transition-colors duration-300`}>Meal Logging</h3>
@@ -547,14 +523,6 @@ const Home = () => {
                 >
                   <ChartBarIcon className="w-20 h-20 text-green-500" />
                 </motion.div>
-                <div className="absolute bottom-4 right-4">
-                  <motion.div 
-                    className="w-7 h-7 rounded-full bg-green-500 flex items-center justify-center"
-                    whileHover={{ scale: 1.2 }}
-                  >
-                    <ArrowRightIcon className="w-4 h-4 text-white" />
-                  </motion.div>
-                </div>
               </div>
               <div className="p-8">
                 <h3 className={`text-2xl font-bold ${text} mb-4 group-hover:text-green-500 transition-colors duration-300`}>Progress Insights</h3>
@@ -612,7 +580,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Final CTA - Redesigned to match inspiration */}
+      {/* Final CTA */}
       <section id="contact" className={`py-24 md:py-32 ${sectionBg}`}>
         <div className="container mx-auto px-6 md:px-12">
           <div className="max-w-6xl mx-auto">
@@ -626,7 +594,7 @@ const Home = () => {
                 <div className="inline-block bg-pink-100 text-pink-500 px-4 py-1 rounded-full mb-6">
                   choose wellnest
                 </div>
-                <h2 className={`text-5xl md:text-6xl font-bold ${text} leading-tight mb-8`}>
+                <h2 className={`text-5xl md:text-6xl font-bold mb-8 ${isDarkMode ? 'text-white' : text} leading-tight`}>
                   Ready to 
                   <span className="relative inline-block ml-2 mr-3">
                     transform
@@ -634,10 +602,9 @@ const Home = () => {
                   </span>
                   your wellness journey?
                 </h2>
-                <p className={`text-xl ${subtext} mb-8 max-w-xl`}>
+                <p className={`text-xl mb-8 max-w-xl ${isDarkMode ? 'text-gray-300' : subtext}`}>
                   Join thousands of users who have already improved their health and well-being with Wellnest's comprehensive tools.
                 </p>
-                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   <div className="flex items-start">
                     <div className="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
@@ -646,11 +613,10 @@ const Home = () => {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-black mb-1">Free Setup</h3>
-                      <p className="text-gray-600">Get started completely free with all essential features</p>
+                      <h3 className={`text-xl font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-black'}`}>Free Setup</h3>
+                      <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Get started completely free with all essential features</p>
                     </div>
                   </div>
-                  
                   <div className="flex items-start">
                     <div className="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -658,8 +624,8 @@ const Home = () => {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-black mb-1">Expert Support</h3>
-                      <p className="text-gray-600">Access to our team of wellness experts</p>
+                      <h3 className={`text-xl font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-black'}`}>Expert Support</h3>
+                      <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Access to our team of wellness experts</p>
                     </div>
                   </div>
                 </div>
@@ -697,7 +663,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Footer - Redesigned to match inspiration */}
+      {/* Footer */}
       <footer className={`py-16 ${footerBg} border-t ${border}`}>
         <div className="container mx-auto px-6 md:px-12">
           <div className="flex flex-col md:flex-row justify-between items-center mb-12">

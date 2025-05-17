@@ -17,9 +17,11 @@ export default function MoodTracker() {
   const [selectedMood, setSelectedMood] = useState(null);
   const [moodHistory, setMoodHistory] = useState({});
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [journalEntry, setJournalEntry] = useState('');
-  const [showJournal, setShowJournal] = useState(false);
+  const [moodNote, setMoodNote] = useState('');
+  const [showMoodNote, setShowMoodNote] = useState(false);
   const [currentWeek, setCurrentWeek] = useState(new Date());
+  const [editingEntry, setEditingEntry] = useState(null);
+  const [editingText, setEditingText] = useState('');
 
   const startDate = startOfWeek(currentWeek);
   const dates = Array.from({ length: 7 }).map((_, i) => addDays(startDate, i));
@@ -28,14 +30,14 @@ export default function MoodTracker() {
   useEffect(() => {
     // Load saved data from localStorage
     const savedMoods = JSON.parse(localStorage.getItem('moodHistory')) || {};
-    const savedJournals = JSON.parse(localStorage.getItem('journalEntries')) || {};
+    const savedMoodNotes = JSON.parse(localStorage.getItem('moodNotes')) || {};
     
     setMoodHistory(savedMoods);
     if (savedMoods[dateKey]) {
       setSelectedMood(savedMoods[dateKey]);
     }
-    if (savedJournals[dateKey]) {
-      setJournalEntry(savedJournals[dateKey]);
+    if (savedMoodNotes[dateKey]) {
+      setMoodNote(savedMoodNotes[dateKey]);
     }
   }, [dateKey]);
 
@@ -49,24 +51,52 @@ export default function MoodTracker() {
     localStorage.setItem('moodHistory', JSON.stringify(updatedHistory));
   };
 
-  const handleJournalSave = () => {
-    const updatedJournals = {
-      ...JSON.parse(localStorage.getItem('journalEntries') || '{}'),
-      [dateKey]: journalEntry
+  const handleMoodNoteSave = () => {
+    const updatedMoodNotes = {
+      ...JSON.parse(localStorage.getItem('moodNotes') || '{}'),
+      [dateKey]: moodNote
     };
-    localStorage.setItem('journalEntries', JSON.stringify(updatedJournals));
-    setShowJournal(false);
+    localStorage.setItem('moodNotes', JSON.stringify(updatedMoodNotes));
+    setShowMoodNote(false);
   };
 
   const navigateWeek = (direction) => {
     setCurrentWeek(addDays(currentWeek, direction * 7));
   };
 
+  const handleDeleteMoodNote = (date) => {
+    if (window.confirm('Are you sure you want to delete this entry?')) {
+      const moodNotes = JSON.parse(localStorage.getItem('moodNotes') || '{}');
+      delete moodNotes[date];
+      localStorage.setItem('moodNotes', JSON.stringify(moodNotes));
+      setShowMoodNote((v) => !v);
+    }
+  };
+
+  const handleEditMoodNote = (date, text) => {
+    setEditingEntry(date);
+    setEditingText(text);
+  };
+
+  const handleSaveEdit = (date) => {
+    const moodNotes = JSON.parse(localStorage.getItem('moodNotes') || '{}');
+    moodNotes[date] = editingText;
+    localStorage.setItem('moodNotes', JSON.stringify(moodNotes));
+    setEditingEntry(null);
+    setEditingText('');
+    setShowMoodNote((v) => !v);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingEntry(null);
+    setEditingText('');
+  };
+
   // Theme-based classes
-  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/80 border-pink-100 text-gray-900';
-  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-white border-gray-100 text-gray-900';
-  const sectionTitle = isDarkMode ? 'text-pink-300' : 'text-pink-800';
-  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900';
+  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/90 border border-pink-100 text-gray-800 shadow-md';
+  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-pink-50/80 border border-pink-100 text-gray-800';
+  const sectionTitle = isDarkMode ? 'text-pink-300' : 'text-pink-600';
+  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white/90 border-pink-100 text-gray-800 placeholder-gray-400';
   const inputFocus = isDarkMode ? 'focus:ring-pink-400 focus:border-pink-400' : 'focus:ring-pink-300 focus:border-pink-300';
   const labelText = isDarkMode ? 'text-gray-300' : 'text-gray-700';
 
@@ -91,7 +121,7 @@ export default function MoodTracker() {
           >
             <HeartIcon className="w-7 h-7" />
           </motion.div>
-          Mood & Journal
+          Mood
         </motion.h1>
         <div className="flex items-center gap-2">
           <button 
@@ -137,22 +167,22 @@ export default function MoodTracker() {
             ))}
           </div>
 
-          {/* Journal Toggle */}
+          {/* Mood Note Toggle */}
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => setShowJournal(!showJournal)}
+            onClick={() => setShowMoodNote(!showMoodNote)}
             className={`w-full py-3 rounded-lg flex items-center justify-center gap-2 ${
-              showJournal ? (isDarkMode ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-700') : 'bg-pink-500 text-white'
+              showMoodNote ? (isDarkMode ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-700') : 'bg-pink-500 text-white'
             }`}
           >
             <BookOpenIcon className="w-5 h-5" />
-            {showJournal ? 'Hide Journal' : 'Write Journal Entry'}
+            {showMoodNote ? 'Hide' : 'Write Something About Your Mood'}
           </motion.button>
 
-          {/* Journal Input */}
+          {/* Mood Note Input */}
           <AnimatePresence>
-            {showJournal && (
+            {showMoodNote && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
@@ -161,17 +191,17 @@ export default function MoodTracker() {
                 className="mt-4 overflow-hidden"
               >
                 <textarea
-                  value={journalEntry}
-                  onChange={(e) => setJournalEntry(e.target.value)}
+                  value={moodNote}
+                  onChange={(e) => setMoodNote(e.target.value)}
                   placeholder="Write about your day, thoughts, or feelings..."
                   className={`w-full p-4 rounded-lg h-40 outline-none transition-all ${inputBg} ${inputFocus}`}
                 />
                 <div className="flex justify-end mt-2">
                   <button
-                    onClick={handleJournalSave}
+                    onClick={handleMoodNoteSave}
                     className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
                   >
-                    Save Journal
+                    Save Mood Note
                   </button>
                 </div>
               </motion.div>
@@ -251,63 +281,67 @@ export default function MoodTracker() {
                   </p>
                 </div>
               </div>
-              
-              {journalEntry && (
-                <div className="mt-4">
-                  <h4 className="text-sm font-medium text-pink-400 mb-1">Journal Entry</h4>
-                  <p className={`text-sm ${isDarkMode ? 'text-gray-200 bg-gray-900/60' : 'text-gray-600 bg-white'} p-3 rounded-lg`}>
-                    {journalEntry}
-                  </p>
-                </div>
-              )}
             </motion.div>
           )}
         </motion.div>
       </div>
 
-      {/* Weekly Mood Chart */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-        className={`rounded-xl p-6 shadow-lg border ${cardBg} mt-6 backdrop-blur-sm`}
-      >
-        <h2 className={`text-lg font-semibold mb-4 ${sectionTitle}`}>Weekly Mood Patterns</h2>
-        <div className="h-40 flex items-end gap-1">
-          {dates.map((date) => {
-            const dateKey = date.toISOString().split('T')[0];
-            const mood = moodHistory[dateKey];
-            const height = mood ? 100 : 20;
-            
-            return (
-              <div key={dateKey} className="flex-1 flex flex-col items-center">
-                <motion.div
-                  initial={{ height: 0 }}
-                  animate={{ height: `${height}%` }}
-                  transition={{ duration: 0.8, type: 'spring' }}
-                  className={`w-full rounded-t-lg ${
-                    mood ? mood.bg : (isDarkMode ? 'bg-gray-800' : 'bg-gray-200')
-                  } flex items-end justify-center`}
-                >
-                  {mood && (
-                    <motion.span 
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
-                      className="text-white -mb-5"
-                    >
-                      {mood.emoji}
-                    </motion.span>
-                  )}
-                </motion.div>
-                <span className="text-xs mt-1 text-gray-500">
-                  {format(date, 'EEE')}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </motion.div>
+      {(() => {
+        const moodNotes = Object.entries(JSON.parse(localStorage.getItem('moodNotes') || '{}'));
+        if (moodNotes.length === 0) return null;
+        return (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className={`rounded-xl p-6 shadow-lg border ${cardBg} mt-6 backdrop-blur-sm`}
+          >
+            <h2 className={`text-lg font-semibold mb-4 ${sectionTitle}`}>Past Mood Notes</h2>
+            <ul className="space-y-3 max-h-60 overflow-y-auto">
+              {moodNotes
+                .sort((a, b) => b[0].localeCompare(a[0]))
+                .map(([date, entry]) => (
+                  <li key={date} className={`p-3 rounded-lg ${isDarkMode ? 'bg-gray-900/60 text-white' : 'bg-gray-50 text-gray-800'} border ${isDarkMode ? 'border-gray-800' : 'border-pink-100'} relative`}>
+                    <div className="flex justify-between items-start mb-1">
+                      <div className="text-xs text-pink-400">{date}</div>
+                      <div className="flex gap-2">
+                        <button
+                          className="text-xs text-blue-500 hover:underline"
+                          onClick={() => handleEditMoodNote(date, entry)}
+                        >Edit</button>
+                        <button
+                          className="text-xs text-red-500 hover:underline"
+                          onClick={() => handleDeleteMoodNote(date)}
+                        >Delete</button>
+                      </div>
+                    </div>
+                    {editingEntry === date ? (
+                      <div>
+                        <textarea
+                          className={`w-full p-2 rounded-lg h-20 outline-none transition-all ${inputBg} ${inputFocus}`}
+                          value={editingText}
+                          onChange={e => setEditingText(e.target.value)}
+                        />
+                        <div className="flex gap-2 mt-2">
+                          <button
+                            className="px-3 py-1 bg-pink-500 text-white rounded hover:bg-pink-600 text-xs"
+                            onClick={() => handleSaveEdit(date)}
+                          >Save</button>
+                          <button
+                            className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 text-xs"
+                            onClick={handleCancelEdit}
+                          >Cancel</button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-sm whitespace-pre-line">{entry}</div>
+                    )}
+                  </li>
+                ))}
+            </ul>
+          </motion.div>
+        );
+      })()}
     </div>
   );
 }
