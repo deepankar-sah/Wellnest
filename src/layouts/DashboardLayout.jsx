@@ -21,7 +21,6 @@ export default function DashboardLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const handleSignOut = () => {
-    // Add your sign out logic here
     console.log('User signed out');
     navigate('/'); // Redirect to home page
   };
@@ -158,7 +157,7 @@ export default function DashboardLayout() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            {/* <ArrowLeftOnRectangleIcon className="w-5 h-5" /> */}
+            <ArrowLeftOnRectangleIcon className="w-5 h-5" />
             <span className="text-sm font-medium">Sign Out</span>
           </motion.button>
         </div>
