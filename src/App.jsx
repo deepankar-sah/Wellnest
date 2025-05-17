@@ -1,60 +1,40 @@
-// src/App.jsx
 import { RouterProvider } from 'react-router-dom';
 import router from './routes/Routes';
 import { Toaster } from 'react-hot-toast';
 import './styles/index.css';
+import { ThemeProvider } from './context/ThemeContext';
 
 function App() {
   return (
-    <>
+    <ThemeProvider>
       <RouterProvider router={router} />
       <Toaster
         position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
         toastOptions={{
-          duration: 3000,
-          style: {
-            background: '#fff',
-            color: '#374151',
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-          },
+          // Default options for specific types
           success: {
-            iconTheme: {
-              primary: '#10B981',
-              secondary: '#fff',
+            duration:
+              5000,
+            style: {
+              background: 'green',
+              color: 'white',
             },
           },
           error: {
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: '#fff',
+            duration: 5000,
+            style: {
+              background: 'red',
+              color: 'white',
             },
           },
         }}
       />
-    </>
+    </ThemeProvider>
   );
 }
 
 export default App;
-
-
-
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import Home from './pages/Home';
-// // import Dashboard from './pages/Dashboard';
-// import DashboardLayout from '../layouts/DashboardLayout';
-
-
-// function App() {
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/" element={<Home />} />
-//         <Route path="/dashboard" element={<DashboardLayout />} />
-//         {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-//       </Routes>
-//     </Router>
-//   );
-// }
-
-// export default App;

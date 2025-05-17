@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
+import { useTheme } from '../../context/ThemeContext';
 
 const WaterDropIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-blue-500">
@@ -11,6 +12,7 @@ const WaterDropIcon = () => (
 );
 
 export default function WaterTracker() {
+  const { isDarkMode } = useTheme();
   const [dailyGoal] = useState(8); // 8 glasses (64oz)
   const [currentIntake, setCurrentIntake] = useState(3);
   const [weeklyData, setWeeklyData] = useState({
@@ -65,6 +67,14 @@ export default function WaterTracker() {
     exit: { scale: 0, opacity: 0 }
   };
 
+  // Theme-based classes
+  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/80 border-blue-100 text-gray-900';
+  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-white border-gray-100 text-gray-900';
+  const sectionTitle = isDarkMode ? 'text-blue-300' : 'text-blue-800';
+  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900';
+  const inputFocus = isDarkMode ? 'focus:ring-blue-400 focus:border-blue-400' : 'focus:ring-blue-300 focus:border-blue-300';
+  const labelText = isDarkMode ? 'text-gray-300' : 'text-gray-700';
+
   return (
     <motion.div 
       className="p-6 max-w-3xl mx-auto relative"
@@ -73,41 +83,43 @@ export default function WaterTracker() {
       variants={containerVariants}
     >
       {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-72 h-72 bg-blue-100 rounded-full opacity-20 blur-3xl -mr-20 -mt-20 z-0"></div>
-      <div className="absolute bottom-0 left-0 w-72 h-72 bg-sky-100 rounded-full opacity-20 blur-3xl -ml-20 -mb-20 z-0"></div>
+      <div className={`absolute top-0 right-0 w-72 h-72 ${isDarkMode ? 'bg-blue-900' : 'bg-blue-100'} rounded-full opacity-20 blur-3xl -mr-20 -mt-20 z-0`}></div>
+      <div className={`absolute bottom-0 left-0 w-72 h-72 ${isDarkMode ? 'bg-sky-900' : 'bg-sky-100'} rounded-full opacity-20 blur-3xl -ml-20 -mb-20 z-0`}></div>
       
-      <motion.h1 
-        className="text-2xl font-bold mb-6 flex items-center gap-3 relative z-10 bg-gradient-to-r from-blue-500 to-sky-600 bg-clip-text text-transparent"
-        variants={itemVariants}
-      >
-        <motion.div 
-          className="p-2 bg-gradient-to-r from-blue-500 to-sky-600 rounded-lg shadow-md"
-          whileHover={{ scale: 1.05, rotate: 10 }}
-          whileTap={{ scale: 0.95 }}
+      {/* Top Bar */}
+      <div className="flex items-center justify-between mb-8 relative z-10">
+        <motion.h1 
+          className="text-2xl font-bold flex items-center gap-3 bg-gradient-to-r from-blue-500 to-sky-600 bg-clip-text text-transparent"
+          variants={itemVariants}
         >
-          <WaterDropIcon />
-        </motion.div>
-        Water Intake Tracker
-      </motion.h1>
-      
+          <motion.div 
+            className="p-2 bg-gradient-to-r from-blue-500 to-sky-600 rounded-lg shadow-md"
+            whileHover={{ scale: 1.05, rotate: 10 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <WaterDropIcon />
+          </motion.div>
+          Water Intake Tracker
+        </motion.h1>
+      </div>
       {/* Daily Tracker */}
       <motion.div 
-        className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg mb-8 border border-blue-100 relative z-10"
+        className={`rounded-2xl p-6 shadow-lg mb-8 border ${cardBg} relative z-10 backdrop-blur-sm`}
         variants={itemVariants}
       >
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-lg font-semibold text-blue-800">
-            Today's Intake: <span className="text-xl text-blue-600">{currentIntake} / {dailyGoal}</span> glasses
+          <h2 className={`text-lg font-semibold ${sectionTitle}`}>
+            Today's Intake: <span className={`text-xl ${isDarkMode ? 'text-blue-200' : 'text-blue-600'}`}>{currentIntake} / {dailyGoal}</span> glasses
           </h2>
           <div className="flex gap-2">
             <motion.button 
               onClick={removeGlass}
               disabled={currentIntake <= 0}
-              className="p-2 bg-gray-100 rounded-full disabled:opacity-50 hover:bg-gray-200 transition-colors shadow-sm"
+              className={`p-2 rounded-full disabled:opacity-50 transition-colors shadow-sm ${isDarkMode ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <MinusIcon className="w-5 h-5 text-gray-600" />
+              <MinusIcon className="w-5 h-5" />
             </motion.button>
             <motion.button 
               onClick={addGlass}
@@ -128,7 +140,7 @@ export default function WaterTracker() {
               className={`w-16 h-16 rounded-full flex items-center justify-center border ${
                 i < currentIntake 
                   ? 'bg-gradient-to-r from-blue-400 to-sky-500 shadow-lg shadow-blue-200' 
-                  : 'bg-gray-100 border-gray-200'
+                  : isDarkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-100 border-gray-200'
               }`}
               initial={{ scale: 0.8, opacity: 0.5 }}
               animate={{ 
@@ -155,13 +167,13 @@ export default function WaterTracker() {
         </div>
 
         <motion.div 
-          className="bg-blue-50 p-5 rounded-xl border border-blue-100"
+          className={`rounded-xl p-5 border ${cardInnerBg}`}
           variants={itemVariants}
           whileHover={{ scale: 1.02 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
-          <h3 className="font-medium mb-3 text-blue-800">Hydration Tips</h3>
-          <ul className="list-disc pl-5 text-sm text-gray-700 space-y-2">
+          <h3 className={`font-medium mb-3 ${sectionTitle}`}>Hydration Tips</h3>
+          <ul className="list-disc pl-5 text-sm space-y-2">
             <motion.li variants={itemVariants}>Drink a glass of water first thing in the morning</motion.li>
             <motion.li variants={itemVariants}>Keep a water bottle with you throughout the day</motion.li>
             <motion.li variants={itemVariants}>Set reminders if you often forget to drink</motion.li>
@@ -172,10 +184,10 @@ export default function WaterTracker() {
 
       {/* Weekly Progress */}
       <motion.div 
-        className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-blue-100 relative z-10"
+        className={`rounded-2xl p-6 shadow-lg border ${cardBg} relative z-10 backdrop-blur-sm`}
         variants={itemVariants}
       >
-        <h2 className="text-lg font-semibold mb-5 text-blue-800">Weekly Progress</h2>
+        <h2 className={`text-lg font-semibold mb-5 ${sectionTitle}`}>Weekly Progress</h2>
         <div className="grid grid-cols-7 gap-3 text-center">
           {weekDays.map((day, index) => {
             const dateKey = format(day, 'yyyy-MM-dd');
@@ -194,7 +206,7 @@ export default function WaterTracker() {
                   {format(day, 'EEE')}
                 </div>
                 <div 
-                  className="relative h-40 bg-gray-50 rounded-xl overflow-hidden border border-gray-200"
+                  className={`relative h-40 rounded-xl overflow-hidden border ${isDarkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}
                   title={`${glasses} glasses`}
                 >
                   <motion.div 

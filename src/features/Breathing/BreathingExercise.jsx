@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { PlayIcon, PauseIcon, ArrowPathIcon } from '@heroicons/react/24/solid';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '../../context/ThemeContext';
 
 const breathingTechniques = [
   {
@@ -28,6 +29,7 @@ const breathingTechniques = [
 ];
 
 export default function BreathingExercise() {
+  const { isDarkMode } = useTheme();
   const [isActive, setIsActive] = useState(false);
   const [currentTechnique, setCurrentTechnique] = useState(0);
   const [currentPhase, setCurrentPhase] = useState(0);
@@ -161,6 +163,14 @@ export default function BreathingExercise() {
     }
   };
 
+  // Theme-based classes
+  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/80 border-purple-100 text-gray-900';
+  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-white border-gray-100 text-gray-900';
+  const sectionTitle = isDarkMode ? 'text-purple-300' : 'text-purple-800';
+  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900';
+  const inputFocus = isDarkMode ? 'focus:ring-purple-400 focus:border-purple-400' : 'focus:ring-purple-300 focus:border-purple-300';
+  const labelText = isDarkMode ? 'text-gray-300' : 'text-gray-700';
+
   return (
     <motion.div 
       className="p-6 max-w-3xl mx-auto relative"
@@ -169,37 +179,40 @@ export default function BreathingExercise() {
       variants={containerVariants}
     >
       {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-72 h-72 bg-purple-100 rounded-full opacity-20 blur-3xl -mr-20 -mt-20 z-0"></div>
-      <div className="absolute bottom-0 left-0 w-72 h-72 bg-teal-100 rounded-full opacity-20 blur-3xl -ml-20 -mb-20 z-0"></div>
+      <div className={`absolute top-0 right-0 w-72 h-72 ${isDarkMode ? 'bg-purple-900' : 'bg-purple-100'} rounded-full opacity-20 blur-3xl -mr-20 -mt-20 z-0`}></div>
+      <div className={`absolute bottom-0 left-0 w-72 h-72 ${isDarkMode ? 'bg-teal-900' : 'bg-teal-100'} rounded-full opacity-20 blur-3xl -ml-20 -mb-20 z-0`}></div>
       
-      <motion.h1 
-        className="text-2xl font-bold mb-6 flex items-center gap-3 relative z-10 bg-gradient-to-r from-purple-500 to-teal-600 bg-clip-text text-transparent"
-        variants={itemVariants}
-      >
-        <motion.div 
-          className="p-2 bg-gradient-to-r from-purple-500 to-teal-600 rounded-lg shadow-md text-white"
-          whileHover={{ scale: 1.05, rotate: 5 }}
-          whileTap={{ scale: 0.95 }}
+      {/* Top Bar */}
+      <div className="flex items-center justify-between mb-8 relative z-10">
+        <motion.h1 
+          className="text-2xl font-bold flex items-center gap-3 bg-gradient-to-r from-purple-500 to-teal-600 bg-clip-text text-transparent"
+          variants={itemVariants}
         >
-          🧘
-        </motion.div>
-        Breathing Exercise
-      </motion.h1>
+          <motion.div 
+            className="p-2 bg-gradient-to-r from-purple-500 to-teal-600 rounded-lg shadow-md text-white"
+            whileHover={{ scale: 1.05, rotate: 5 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            🧘
+          </motion.div>
+          Breathing Exercise
+        </motion.h1>
+      </div>
       
       <motion.div 
-        className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg mb-8 border border-purple-100 relative z-10 overflow-hidden"
+        className={`rounded-2xl p-8 shadow-lg mb-8 border ${cardBg} relative z-10 overflow-hidden backdrop-blur-sm`}
         variants={itemVariants}
       >
-        <div className="absolute -right-32 -top-32 w-72 h-72 bg-pink-100 rounded-full opacity-20"></div>
+        <div className={`absolute -right-32 -top-32 w-72 h-72 ${isDarkMode ? 'bg-pink-900' : 'bg-pink-100'} rounded-full opacity-20`}></div>
         
         <motion.h2 
-          className="text-xl font-semibold mb-4 text-purple-800 relative z-10"
+          className={`text-xl font-semibold mb-4 ${sectionTitle} relative z-10`}
           variants={itemVariants}
         >
           {technique.name}
         </motion.h2>
         <motion.p 
-          className="text-gray-600 mb-8 relative z-10"
+          className={`mb-8 relative z-10 ${isDarkMode ? 'text-gray-200' : 'text-gray-600'}`}
           variants={itemVariants}
         >
           {technique.description}
@@ -258,7 +271,7 @@ export default function BreathingExercise() {
           >
             {timeLeft}s
           </motion.div>
-          <div className="text-gray-500 mb-6">
+          <div className={`text-gray-400 mb-6 ${isDarkMode ? 'text-gray-300' : ''}`}>
             Cycle {cycleCount + 1} of {technique.cycles}
           </div>
           <div className="flex justify-center gap-4">
@@ -286,7 +299,7 @@ export default function BreathingExercise() {
             </motion.button>
             <motion.button
               onClick={resetBreathing}
-              className="flex items-center gap-2 px-6 py-3 rounded-full bg-gray-200 text-gray-700 font-medium shadow-md hover:shadow hover:bg-gray-300 transition-all"
+              className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium shadow-md hover:shadow transition-all ${isDarkMode ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -299,11 +312,11 @@ export default function BreathingExercise() {
       
       {/* Techniques */}
       <motion.div 
-        className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-purple-100 relative z-10"
+        className={`rounded-2xl p-6 shadow-lg border ${cardBg} relative z-10 backdrop-blur-sm`}
         variants={itemVariants}
       >
         <motion.h2 
-          className="text-xl font-semibold mb-5 text-purple-800"
+          className={`text-xl font-semibold mb-5 ${sectionTitle}`}
           variants={itemVariants}
         >
           Breathing Techniques
@@ -316,7 +329,7 @@ export default function BreathingExercise() {
               className={`p-5 rounded-xl cursor-pointer transition border ${
                 currentTechnique === index
                   ? 'bg-gradient-to-r bg-opacity-20 shadow-md'
-                  : 'bg-gray-50 hover:bg-gray-100 border-gray-100'
+                  : isDarkMode ? 'bg-gray-900 hover:bg-gray-800 border-gray-800' : 'bg-gray-50 hover:bg-gray-100 border-gray-100'
               }`}
               style={{
                 backgroundImage: currentTechnique === index ? `linear-gradient(to right, ${tech.color.split(' ')[1]}20, ${tech.color.split(' ')[3]}20)` : '',
@@ -336,11 +349,11 @@ export default function BreathingExercise() {
               <h3 className={`font-medium text-lg ${
                 currentTechnique === index 
                   ? 'bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent'
-                  : ''
+                  : isDarkMode ? 'text-white' : 'text-gray-900'
               }`}>
                 {tech.name}
               </h3>
-              <p className="text-sm text-gray-600 mt-1">{tech.description}</p>
+              <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-200' : 'text-gray-600'}`}>{tech.description}</p>
               
               {currentTechnique === index && (
                 <motion.div 

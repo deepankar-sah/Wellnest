@@ -1,4 +1,3 @@
-
 import { createBrowserRouter } from 'react-router-dom';
 import DashboardLayout from '../layouts/DashboardLayout';
 import Home from '../pages/Home';
@@ -8,6 +7,7 @@ import WaterTracker from '../features/WaterTracker/WaterTracker';
 import SleepTracker from '../features/SleepTracker/SleepTracker';
 import BreathingExercise from '../features/Breathing/BreathingExercise';
 import MealTracker from '../features/MealTracker/MealTracker';
+import Journal from '../features/Journal/Journal';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: 'meals',
         element: <MealTracker />,
+      },
+      {
+        path: 'journal',
+        element: <Journal />,
       },
     ],
   },

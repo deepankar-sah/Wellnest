@@ -3,8 +3,10 @@ import { useState } from 'react';
 import { format, startOfWeek, addDays, subDays } from 'date-fns';
 import { motion } from 'framer-motion';
 import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
+import { useTheme } from '../../context/ThemeContext';
 
 const SleepTracker = () => {
+  const { isDarkMode } = useTheme();
   const [sleepHours, setSleepHours] = useState(7.5);
   const [sleepData, setSleepData] = useState({
     '2023-06-04': 6.5,
@@ -58,6 +60,14 @@ const SleepTracker = () => {
     return 'from-red-400 to-red-600';
   }
 
+  // Theme-based classes
+  const cardBg = isDarkMode ? 'bg-gray-900/80 border-gray-800 text-white' : 'bg-white/80 border-indigo-100 text-gray-900';
+  const cardInnerBg = isDarkMode ? 'bg-gray-800/80 border-gray-800 text-white' : 'bg-white border-gray-100 text-gray-900';
+  const sectionTitle = isDarkMode ? 'text-indigo-300' : 'text-indigo-800';
+  const inputBg = isDarkMode ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900';
+  const inputFocus = isDarkMode ? 'focus:ring-indigo-400 focus:border-indigo-400' : 'focus:ring-indigo-300 focus:border-indigo-300';
+  const labelText = isDarkMode ? 'text-gray-300' : 'text-gray-700';
+
   return (
     <motion.div 
       className="p-6 max-w-3xl mx-auto relative"
@@ -66,33 +76,35 @@ const SleepTracker = () => {
       variants={containerVariants}
     >
       {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-72 h-72 bg-indigo-100 rounded-full opacity-20 blur-3xl -mr-20 -mt-20 z-0"></div>
-      <div className="absolute bottom-0 left-0 w-72 h-72 bg-purple-100 rounded-full opacity-20 blur-3xl -ml-20 -mb-20 z-0"></div>
+      <div className={`absolute top-0 right-0 w-72 h-72 ${isDarkMode ? 'bg-indigo-900' : 'bg-indigo-100'} rounded-full opacity-20 blur-3xl -mr-20 -mt-20 z-0`}></div>
+      <div className={`absolute bottom-0 left-0 w-72 h-72 ${isDarkMode ? 'bg-purple-900' : 'bg-purple-100'} rounded-full opacity-20 blur-3xl -ml-20 -mb-20 z-0`}></div>
       
-      <motion.h1 
-        className="text-2xl font-bold mb-6 flex items-center gap-3 relative z-10 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent"
-        variants={itemVariants}
-      >
-        <motion.div 
-          className="p-2 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg shadow-md text-white"
-          whileHover={{ scale: 1.05, rotate: 5 }}
-          whileTap={{ scale: 0.95 }}
+      {/* Top Bar */}
+      <div className="flex items-center justify-between mb-8 relative z-10">
+        <motion.h1 
+          className="text-2xl font-bold flex items-center gap-3 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent"
+          variants={itemVariants}
         >
-          😴
-        </motion.div>
-        Sleep Tracker
-      </motion.h1>
-      
+          <motion.div 
+            className="p-2 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg shadow-md text-white"
+            whileHover={{ scale: 1.05, rotate: 5 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            😴
+          </motion.div>
+          Sleep Tracker
+        </motion.h1>
+      </div>
       {/* Sleep Log */}
       <motion.div 
-        className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg mb-8 border border-indigo-100 relative z-10"
+        className={`rounded-2xl p-6 shadow-lg mb-8 border ${cardBg} relative z-10 backdrop-blur-sm`}
         variants={itemVariants}
       >
-        <h2 className="text-lg font-semibold mb-5 text-indigo-800">Log Your Sleep</h2>
+        <h2 className={`text-lg font-semibold mb-5 ${sectionTitle}`}>Log Your Sleep</h2>
         
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
-            <label className="text-sm font-medium text-indigo-800">
+            <label className={`text-sm font-medium ${sectionTitle}`}>
               Sleep Duration
             </label>
             <span className="text-xl font-bold bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">
@@ -112,7 +124,7 @@ const SleepTracker = () => {
               step="0.5"
               value={sleepHours}
               onChange={handleSleepChange}
-              className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+              className={`w-full h-3 rounded-lg appearance-none cursor-pointer accent-indigo-600 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-200'}`}
             />
             <div className="flex justify-between text-xs text-gray-500 mt-2">
               <span>4h</span>
@@ -134,22 +146,22 @@ const SleepTracker = () => {
 
       {/* Sleep Insights */}
       <motion.div 
-        className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg mb-8 border border-indigo-100 relative z-10 overflow-hidden"
+        className={`rounded-2xl p-6 shadow-lg mb-8 border ${cardBg} relative z-10 overflow-hidden backdrop-blur-sm`}
         variants={itemVariants}
       >
-        <div className="absolute -right-16 -top-16 w-32 h-32 bg-indigo-100 rounded-full opacity-40"></div>
-        <div className="absolute -left-16 -bottom-16 w-32 h-32 bg-purple-100 rounded-full opacity-40"></div>
+        <div className={`absolute -right-16 -top-16 w-32 h-32 ${isDarkMode ? 'bg-indigo-900' : 'bg-indigo-100'} rounded-full opacity-40`}></div>
+        <div className={`absolute -left-16 -bottom-16 w-32 h-32 ${isDarkMode ? 'bg-purple-900' : 'bg-purple-100'} rounded-full opacity-40`}></div>
         
-        <h2 className="text-lg font-semibold mb-5 text-indigo-800 relative z-10">Sleep Insights</h2>
+        <h2 className={`text-lg font-semibold mb-5 ${sectionTitle} relative z-10`}>Sleep Insights</h2>
         
         <div className="grid grid-cols-2 gap-4 mb-8 relative z-10">
           <motion.div 
-            className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-5 rounded-xl border border-indigo-200/30"
+            className={`bg-gradient-to-br from-indigo-900/40 to-indigo-800/30 p-5 rounded-xl border border-indigo-900/30 ${isDarkMode ? 'text-indigo-200' : ''}`}
             whileHover={{ y: -5, scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h3 className="text-sm font-medium text-indigo-800 mb-1">Average Sleep</h3>
-            <p className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <h3 className="text-sm font-medium text-indigo-400 mb-1">Average Sleep</h3>
+            <p className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
               {(
                 Object.values(sleepData).reduce((a, b) => a + b, 0) / 
                 Object.values(sleepData).length
@@ -157,25 +169,25 @@ const SleepTracker = () => {
             </p>
           </motion.div>
           <motion.div 
-            className="bg-gradient-to-br from-purple-50 to-purple-100 p-5 rounded-xl border border-purple-200/30"
+            className={`bg-gradient-to-br from-purple-900/40 to-purple-800/30 p-5 rounded-xl border border-purple-900/30 ${isDarkMode ? 'text-purple-200' : ''}`}
             whileHover={{ y: -5, scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h3 className="text-sm font-medium text-purple-800 mb-1">Last Night</h3>
-            <p className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h3 className="text-sm font-medium text-purple-400 mb-1">Last Night</h3>
+            <p className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               {sleepData[format(subDays(new Date(), 1), 'yyyy-MM-dd')] || '--'}h
             </p>
           </motion.div>
         </div>
 
         <motion.div 
-          className="bg-gradient-to-r from-indigo-50 to-purple-50 p-5 rounded-xl border border-indigo-100"
+          className={`rounded-xl p-5 border ${cardInnerBg} relative z-10`}
           variants={itemVariants}
           whileHover={{ scale: 1.01 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
-          <h3 className="text-sm font-medium text-indigo-800 mb-2">Sleep Quality Tips</h3>
-          <div className="text-sm text-gray-700 space-y-2">
+          <h3 className={`text-sm font-medium mb-2 ${sectionTitle}`}>Sleep Quality Tips</h3>
+          <div className="text-sm space-y-2">
             <p className="flex gap-2 items-start">
               <span className="text-indigo-500">✓</span>
               <span>Adults should aim for 7-8 hours of quality sleep per night.</span>
@@ -194,10 +206,10 @@ const SleepTracker = () => {
 
       {/* Weekly Sleep Chart */}
       <motion.div 
-        className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-indigo-100 relative z-10"
+        className={`rounded-2xl p-6 shadow-lg border ${cardBg} relative z-10 backdrop-blur-sm`}
         variants={itemVariants}
       >
-        <h2 className="text-lg font-semibold mb-5 text-indigo-800">Weekly Sleep Data</h2>
+        <h2 className={`text-lg font-semibold mb-5 ${sectionTitle}`}>Weekly Sleep Data</h2>
         <div className="grid grid-cols-7 gap-3 text-center">
           {weekDays.map((day, index) => {
             const dateKey = format(day, 'yyyy-MM-dd');
@@ -216,7 +228,7 @@ const SleepTracker = () => {
                   {format(day, 'EEE')}
                 </div>
                 <div 
-                  className="relative h-40 bg-gray-50 rounded-xl overflow-hidden border border-gray-200"
+                  className={`relative h-40 rounded-xl overflow-hidden border ${isDarkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}
                   title={`${hours} hours`}
                 >
                   <motion.div 
