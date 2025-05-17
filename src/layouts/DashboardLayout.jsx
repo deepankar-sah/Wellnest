@@ -47,8 +47,8 @@ export default function DashboardLayout() {
   };
 
   return (
-    <div className={`flex min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} transition-colors duration-300`}>
-      {/* Sidebar - Enhanced with glass morphism and dark mode support */}
+    <div className={`flex h-full ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} transition-colors duration-300`}>
+      {/* Sidebar */}
       <motion.aside 
         className={`w-64 ${isDarkMode 
           ? 'bg-gray-800/80 text-white border-r border-gray-700' 

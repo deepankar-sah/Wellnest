@@ -67,6 +67,19 @@ const SleepTracker = () => {
   const inputFocus = isDarkMode ? 'focus:ring-indigo-400 focus:border-indigo-400' : 'focus:ring-indigo-300 focus:border-indigo-300';
   const labelText = isDarkMode ? 'text-gray-300' : 'text-gray-700';
 
+  // past sleep entry from the current week
+  const todayKey = format(new Date(), 'yyyy-MM-dd');
+  const lastNightValue = (() => {
+    // Get all weekDays before today
+    const pastDays = weekDays.filter(day => format(day, 'yyyy-MM-dd') < todayKey);
+    // Find the latest with a value
+    for (let i = pastDays.length - 1; i >= 0; i--) {
+      const key = format(pastDays[i], 'yyyy-MM-dd');
+      if (sleepData[key]) return sleepData[key];
+    }
+    return '--';
+  })();
+
   return (
     <motion.div 
       className="p-6 max-w-3xl mx-auto relative"
@@ -174,7 +187,7 @@ const SleepTracker = () => {
           >
             <h3 className="text-sm font-medium text-purple-400 mb-1">Last Night</h3>
             <p className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              {sleepData[format(subDays(new Date(), 1), 'yyyy-MM-dd')] || '--'}h
+              {lastNightValue}h
             </p>
           </motion.div>
         </div>

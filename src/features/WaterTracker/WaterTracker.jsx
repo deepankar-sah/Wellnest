@@ -13,7 +13,7 @@ const WaterDropIcon = ({ isDarkMode }) => (
 
 export default function WaterTracker() {
   const { isDarkMode } = useTheme();
-  const [dailyGoal] = useState(8); // 8 glasses (64oz)
+  const [dailyGoal] = useState(8); // Daily goal for water intake
   const [currentIntake, setCurrentIntake] = useState(3);
   const [weeklyData, setWeeklyData] = useState({
     '2023-06-04': 5,
