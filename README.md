@@ -74,11 +74,6 @@ Wellnest is a comprehensive wellness tracking application designed to help users
 - Heroicons for icons
 - date-fns for date handling
 
-### Backend (Optional)
-- Node.js with Express
-- MongoDB (for future expansion)
-- JWT authentication (for future expansion)
-
 ## Installation
 
 1. Clone the repository:
@@ -134,42 +129,6 @@ Wellnest is a comprehensive wellness tracking application designed to help users
    - Monitor daily calorie and macronutrient intake
    - Get healthy eating tips
 
-## Screenshots
 
-![Dashboard](screenshots/dashboard.png)
-*Dashboard Overview*
-
-![Mood Tracker](screenshots/mood-tracker.png)
-*Mood Tracking with Journal*
-
-![Water Tracker](screenshots/water-tracker.png)
-*Water Intake Tracking*
-
-![Sleep Tracker](screenshots/sleep-tracker.png)
-*Sleep Duration Tracking*
-
-![Breathing Exercises](screenshots/breathing.png)
-*Guided Breathing Exercises*
-
-![Nutrition Tracker](screenshots/nutrition.png)
-*Meal and Nutrition Tracking*
-
-## Contributing
-
-We welcome contributions to Wellnest! Here's how you can help:
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-Please read our [Contribution Guidelines](CONTRIBUTING.md) for more details.
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
 
 **Wellnest** - Your all-in-one wellness companion for a healthier, happier life.
