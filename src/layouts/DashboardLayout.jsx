@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import { HeartIcon, SunIcon, MoonIcon } from '@heroicons/react/24/solid';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { HeartIcon, SunIcon, MoonIcon, ArrowLeftOnRectangleIcon } from '@heroicons/react/24/solid';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
@@ -16,8 +16,15 @@ const navItems = [
 
 export default function DashboardLayout() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
+  const handleSignOut = () => {
+    // Add your sign out logic here
+    console.log('User signed out');
+    navigate('/'); // Redirect to home page
+  };
 
   // Animation variants
   const sidebarVariants = {
@@ -132,7 +139,7 @@ export default function DashboardLayout() {
 
         {/* Profile Section */}
         <div className={`absolute bottom-0 left-0 right-0 p-6 ${isDarkMode ? 'border-t border-gray-700' : 'border-t border-gray-100'}`}>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 flex items-center justify-center text-white font-bold">
               D
             </div>
@@ -141,6 +148,19 @@ export default function DashboardLayout() {
               <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Premium Member</p>
             </div>
           </div>
+          <motion.button
+            onClick={handleSignOut}
+            className={`w-full flex items-center justify-center gap-2 p-2 rounded-lg ${
+              isDarkMode 
+                ? 'bg-gray-700 hover:bg-gray-600 text-gray-200' 
+                : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+            } transition-colors duration-200`}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            {/* <ArrowLeftOnRectangleIcon className="w-5 h-5" /> */}
+            <span className="text-sm font-medium">Sign Out</span>
+          </motion.button>
         </div>
       </motion.aside>
 
@@ -239,7 +259,7 @@ export default function DashboardLayout() {
 
               {/* Profile Section */}
               <div className={`absolute bottom-0 left-0 right-0 p-6 ${isDarkMode ? 'border-t border-gray-700' : 'border-t border-gray-100'}`}>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 flex items-center justify-center text-white font-bold">
                     D
                   </div>
@@ -248,6 +268,22 @@ export default function DashboardLayout() {
                     <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Premium Member</p>
                   </div>
                 </div>
+                <motion.button
+                  onClick={() => {
+                    handleSignOut();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center justify-center gap-2 p-2 rounded-lg ${
+                    isDarkMode 
+                      ? 'bg-gray-700 hover:bg-gray-600 text-gray-200' 
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  } transition-colors duration-200`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <ArrowLeftOnRectangleIcon className="w-5 h-5" />
+                  <span className="text-sm font-medium">Sign Out</span>
+                </motion.button>
               </div>
             </motion.div>
           </motion.div>
