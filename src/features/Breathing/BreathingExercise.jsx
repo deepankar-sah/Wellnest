@@ -90,7 +90,7 @@ export default function BreathingExercise() {
     // Breathing animation
     if (isActive) {
       const totalTime = technique.pattern[currentPhase % technique.pattern.length];
-      if (totalTime === 0) return; // Skip animation for 0 duration phases
+      if (totalTime === 0) return; 
       
       const steps = totalTime * 10;
       let step = 0;

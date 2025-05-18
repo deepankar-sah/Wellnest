@@ -15,7 +15,6 @@ function App() {
         containerClassName=""
         containerStyle={{}}
         toastOptions={{
-          // Default options for specific types
           success: {
             duration:
               5000,

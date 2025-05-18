@@ -64,7 +64,7 @@ const Dashboard = () => {
     }
   };
 
-  // Theme-based classes for light mode improvements
+  // Theme-based classes for light mode 
   const mainBg = isDarkMode ? 'bg-gradient-to-br from-gray-950 to-gray-900' : 'bg-gradient-to-br from-gray-50 via-white to-pink-50';
   const topBarText = isDarkMode ? 'text-white' : 'text-gray-800';
   const topBarBorder = isDarkMode ? 'border-b border-gray-800' : 'border-b border-pink-100';
